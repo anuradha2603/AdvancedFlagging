@@ -174,12 +174,15 @@ async function GetFlagSettings() {
     return returnArr;
 }
 
+declare const GM_listValues: () => string[];
 async function GetAdminConfigItems() {
     return [
         {
-            element: $('<a />').text('Clear expired items from cache')
+            element: $('<a />').text('Clear all grease monkey keys')
                 .click(() => {
-                    GreaseMonkeyCache.ClearExpiredKeys();
+                    GM_listValues().forEach(key => {
+                        GreaseMonkeyCache.Unset(key);
+                    });
                 }),
             requiresReload: true
         },

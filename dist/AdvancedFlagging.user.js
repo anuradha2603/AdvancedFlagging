@@ -601,7 +601,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
 var isFunction_1 = __webpack_require__(12);
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(3);
 var Observer_1 = __webpack_require__(14);
 var rxSubscriber_1 = __webpack_require__(8);
 /**
@@ -863,93 +863,6 @@ var SafeSubscriber = (function (_super) {
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var GreaseMonkeyCache = /** @class */ (function () {
-        function GreaseMonkeyCache() {
-        }
-        GreaseMonkeyCache.GetAndCache = function (cacheKey, getterPromise, expiresAt) {
-            return tslib_1.__awaiter(this, void 0, void 0, function () {
-                var cachedItem, result;
-                return tslib_1.__generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0:
-                            cachedItem = GreaseMonkeyCache.GetFromCache(cacheKey);
-                            if (cachedItem !== undefined) {
-                                return [2 /*return*/, cachedItem];
-                            }
-                            return [4 /*yield*/, getterPromise()];
-                        case 1:
-                            result = _a.sent();
-                            GreaseMonkeyCache.StoreInCache(cacheKey, result, expiresAt);
-                            return [2 /*return*/, result];
-                    }
-                });
-            });
-        };
-        GreaseMonkeyCache.ClearExpiredKeys = function (regexes) {
-            GM_listValues().forEach(function (key) {
-                if (!regexes || regexes.filter(function (r) { return key.match(r); }).length > 0) {
-                    var jsonItem = GM_getValue(key, undefined);
-                    if (jsonItem) {
-                        try {
-                            var dataItem = JSON.parse(jsonItem);
-                            if ((dataItem.Expires && new Date(dataItem.Expires) < new Date())) {
-                                GreaseMonkeyCache.Unset(key);
-                            }
-                        }
-                        catch (_a) {
-                            // Don't care
-                        }
-                    }
-                }
-            });
-        };
-        GreaseMonkeyCache.ClearAll = function (regexes, condition) {
-            GM_listValues().forEach(function (key) {
-                if (regexes.filter(function (r) { return key.match(r); }).length > 0) {
-                    if (condition) {
-                        var val = GM_getValue(key, undefined);
-                        if (condition(val)) {
-                            GreaseMonkeyCache.Unset(key);
-                        }
-                    }
-                    else {
-                        GreaseMonkeyCache.Unset(key);
-                    }
-                }
-            });
-        };
-        GreaseMonkeyCache.GetFromCache = function (cacheKey) {
-            var jsonItem = GM_getValue(cacheKey, undefined);
-            if (!jsonItem) {
-                return undefined;
-            }
-            var dataItem = JSON.parse(jsonItem);
-            if ((dataItem.Expires && new Date(dataItem.Expires) < new Date())) {
-                return undefined;
-            }
-            return dataItem.Data;
-        };
-        GreaseMonkeyCache.StoreInCache = function (cacheKey, item, expiresAt) {
-            var jsonStr = JSON.stringify({ Expires: expiresAt, Data: item });
-            GM_setValue(cacheKey, jsonStr);
-        };
-        GreaseMonkeyCache.Unset = function (cacheKey) {
-            GM_deleteValue(cacheKey);
-        };
-        return GreaseMonkeyCache;
-    }());
-    exports.GreaseMonkeyCache = GreaseMonkeyCache;
-}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
 "use strict";
 
 var isArray_1 = __webpack_require__(23);
@@ -1146,6 +1059,45 @@ function flattenUnsubscriptionErrors(errors) {
 //# sourceMappingURL=Subscription.js.map
 
 /***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var GreaseMonkeyCache = /** @class */ (function () {
+        function GreaseMonkeyCache() {
+        }
+        GreaseMonkeyCache.GetAndCache = function (cacheKey, getterPromise, expiresAt) {
+            return tslib_1.__awaiter(this, void 0, void 0, function () {
+                return tslib_1.__generator(this, function (_a) {
+                    return [2 /*return*/, getterPromise()];
+                });
+            });
+        };
+        // tslint:disable-next-line:no-empty
+        GreaseMonkeyCache.ClearExpiredKeys = function (regexes) {
+        };
+        // tslint:disable-next-line:no-empty
+        GreaseMonkeyCache.ClearAll = function (regexes, condition) {
+        };
+        GreaseMonkeyCache.GetFromCache = function (cacheKey) {
+            return undefined;
+        };
+        // tslint:disable-next-line:no-empty
+        GreaseMonkeyCache.StoreInCache = function (cacheKey, item, expiresAt) {
+        };
+        // tslint:disable-next-line:no-empty
+        GreaseMonkeyCache.Unset = function (cacheKey) {
+        };
+        return GreaseMonkeyCache;
+    }());
+    exports.GreaseMonkeyCache = GreaseMonkeyCache;
+}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ }),
 /* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1158,7 +1110,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Observable_1 = __webpack_require__(1);
 var Subscriber_1 = __webpack_require__(2);
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(3);
 var ObjectUnsubscribedError_1 = __webpack_require__(15);
 var SubjectSubscription_1 = __webpack_require__(16);
 var rxSubscriber_1 = __webpack_require__(8);
@@ -1617,7 +1569,7 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Subject_1 = __webpack_require__(5);
 var queue_1 = __webpack_require__(30);
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(3);
 var observeOn_1 = __webpack_require__(37);
 var ObjectUnsubscribedError_1 = __webpack_require__(15);
 var SubjectSubscription_1 = __webpack_require__(16);
@@ -1716,7 +1668,7 @@ var ReplayEvent = (function () {
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(7), __webpack_require__(21), __webpack_require__(20), __webpack_require__(19), __webpack_require__(43), __webpack_require__(47), __webpack_require__(51), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, FlagTypes_1, sotools_1, NattyApi_1, GenericBotAPI_1, MetaSmokeAPI_1, CopyPastorAPI_1, RequestWatcher_1, Configuration_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(11), __webpack_require__(7), __webpack_require__(21), __webpack_require__(20), __webpack_require__(19), __webpack_require__(44), __webpack_require__(48), __webpack_require__(52), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, FlagTypes_1, sotools_1, NattyApi_1, GenericBotAPI_1, MetaSmokeAPI_1, CopyPastorAPI_1, RequestWatcher_1, Configuration_1, GreaseMonkeyCache_1) {
     "use strict";
     var _this = this;
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -2701,7 +2653,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(3);
 /**
  * We need this JSDoc comment for affecting ESDoc.
  * @ignore
@@ -2740,7 +2692,7 @@ exports.SubjectSubscription = SubjectSubscription;
 /* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, GreaseMonkeyCache_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var ChatApi = /** @class */ (function () {
@@ -2880,7 +2832,7 @@ Observable_1.Observable.prototype.take = take_1.take;
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(9), __webpack_require__(3), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, ReplaySubject_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(9), __webpack_require__(43), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, ReplaySubject_1, GreaseMonkeyCacheDeprecated_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.MetaSmokeDisabledConfig = 'MetaSmoke.Disabled';
@@ -2899,8 +2851,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         MetaSmokeAPI.Reset = function () {
             return tslib_1.__awaiter(this, void 0, void 0, function () {
                 return tslib_1.__generator(this, function (_a) {
-                    GreaseMonkeyCache_1.GreaseMonkeyCache.Unset(exports.MetaSmokeDisabledConfig);
-                    GreaseMonkeyCache_1.GreaseMonkeyCache.Unset(exports.MetaSmokeUserKeyConfig);
+                    GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.Unset(exports.MetaSmokeDisabledConfig);
+                    GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.Unset(exports.MetaSmokeUserKeyConfig);
                     return [2 /*return*/];
                 });
             });
@@ -2909,7 +2861,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return tslib_1.__awaiter(this, void 0, void 0, function () {
                 var cachedDisabled;
                 return tslib_1.__generator(this, function (_a) {
-                    cachedDisabled = GreaseMonkeyCache_1.GreaseMonkeyCache.GetFromCache(exports.MetaSmokeDisabledConfig);
+                    cachedDisabled = GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.GetFromCache(exports.MetaSmokeDisabledConfig);
                     if (cachedDisabled === undefined) {
                         return [2 /*return*/, false];
                     }
@@ -2933,7 +2885,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                                             return [2 /*return*/];
                                         }
                                         if (!confirm('Setting up MetaSmoke... If you do not wish to connect, press cancel. This will not show again if you press cancel. To reset configuration, see footer of Stack Overflow.')) {
-                                            GreaseMonkeyCache_1.GreaseMonkeyCache.StoreInCache(exports.MetaSmokeDisabledConfig, true);
+                                            GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.StoreInCache(exports.MetaSmokeDisabledConfig, true);
                                             return [2 /*return*/];
                                         }
                                         window.open(metaSmokeOAuthUrl, '_blank');
@@ -2969,7 +2921,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         };
         MetaSmokeAPI.QueryMetaSmoke = function (postId, postType) {
             var url = MetaSmokeAPI.GetQueryUrl(postId, postType);
-            var existingResult = GreaseMonkeyCache_1.GreaseMonkeyCache.GetFromCache(exports.MetaSmokeWasReportedConfig + "." + url);
+            var existingResult = GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.GetFromCache(exports.MetaSmokeWasReportedConfig + "." + url);
             if (existingResult !== undefined) {
                 var key = MetaSmokeAPI.GetObservableKey(postId, postType);
                 var obs = MetaSmokeAPI.ObservableLookup[key];
@@ -3028,7 +2980,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                                 var obs = MetaSmokeAPI.ObservableLookup[key];
                                 if (obs) {
                                     obs.next(item.id);
-                                    GreaseMonkeyCache_1.GreaseMonkeyCache.StoreInCache(exports.MetaSmokeWasReportedConfig + "." + item.link, item.id, expiryDate);
+                                    GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.StoreInCache(exports.MetaSmokeWasReportedConfig + "." + item.link, item.id, expiryDate);
                                 }
                                 delete pendingPostLookup[item.link];
                             }
@@ -3048,7 +3000,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                             var obs = MetaSmokeAPI.ObservableLookup[key];
                             if (obs) {
                                 obs.next(null);
-                                GreaseMonkeyCache_1.GreaseMonkeyCache.StoreInCache(exports.MetaSmokeWasReportedConfig + "." + url, null, expiryDate);
+                                GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.StoreInCache(exports.MetaSmokeWasReportedConfig + "." + url, null, expiryDate);
                             }
                         }
                     }
@@ -3091,7 +3043,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
         };
         MetaSmokeAPI.getUserKey = function () {
             var _this = this;
-            return GreaseMonkeyCache_1.GreaseMonkeyCache.GetAndCache(exports.MetaSmokeUserKeyConfig, function () { return new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+            return GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.GetAndCache(exports.MetaSmokeUserKeyConfig, function () { return new Promise(function (resolve, reject) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
                 var prom, code;
                 return tslib_1.__generator(this, function (_a) {
                     switch (_a.label) {
@@ -3188,7 +3140,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                         case 4:
                             result = _a.sent();
                             queryUrlStr = MetaSmokeAPI.GetQueryUrl(postId, postType);
-                            GreaseMonkeyCache_1.GreaseMonkeyCache.Unset(exports.MetaSmokeWasReportedConfig + "." + queryUrlStr);
+                            GreaseMonkeyCacheDeprecated_1.GreaseMonkeyCacheDeprecated.Unset(exports.MetaSmokeWasReportedConfig + "." + queryUrlStr);
                             return [4 /*yield*/, Delay(1000)];
                         case 5:
                             _a.sent();
@@ -3387,7 +3339,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(5), __webpack_require__(9), __webpack_require__(7), __webpack_require__(17), __webpack_require__(3), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, Subject_1, ReplaySubject_1, sotools_1, ChatApi_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(5), __webpack_require__(9), __webpack_require__(7), __webpack_require__(17), __webpack_require__(4), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, Subject_1, ReplaySubject_1, sotools_1, ChatApi_1, GreaseMonkeyCache_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var nattyFeedbackUrl = 'http://logs.sobotics.org/napi/api/feedback';
@@ -4032,7 +3984,7 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Subscription_1 = __webpack_require__(4);
+var Subscription_1 = __webpack_require__(3);
 /**
  * A unit of work to be executed in a {@link Scheduler}. An action is typically
  * created from within a Scheduler and an RxJS user does not need to concern
@@ -4727,7 +4679,94 @@ exports.EmptyObservable = EmptyObservable;
 /* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(9), __webpack_require__(5), __webpack_require__(17), __webpack_require__(3), __webpack_require__(44)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, ReplaySubject_1, Subject_1, ChatApi_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var GreaseMonkeyCacheDeprecated = /** @class */ (function () {
+        function GreaseMonkeyCacheDeprecated() {
+        }
+        GreaseMonkeyCacheDeprecated.GetAndCache = function (cacheKey, getterPromise, expiresAt) {
+            return tslib_1.__awaiter(this, void 0, void 0, function () {
+                var cachedItem, result;
+                return tslib_1.__generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            cachedItem = GreaseMonkeyCacheDeprecated.GetFromCache(cacheKey);
+                            if (cachedItem !== undefined) {
+                                return [2 /*return*/, cachedItem];
+                            }
+                            return [4 /*yield*/, getterPromise()];
+                        case 1:
+                            result = _a.sent();
+                            GreaseMonkeyCacheDeprecated.StoreInCache(cacheKey, result, expiresAt);
+                            return [2 /*return*/, result];
+                    }
+                });
+            });
+        };
+        GreaseMonkeyCacheDeprecated.ClearExpiredKeys = function (regexes) {
+            GM_listValues().forEach(function (key) {
+                if (!regexes || regexes.filter(function (r) { return key.match(r); }).length > 0) {
+                    var jsonItem = GM_getValue(key, undefined);
+                    if (jsonItem) {
+                        try {
+                            var dataItem = JSON.parse(jsonItem);
+                            if ((dataItem.Expires && new Date(dataItem.Expires) < new Date())) {
+                                GreaseMonkeyCacheDeprecated.Unset(key);
+                            }
+                        }
+                        catch (_a) {
+                            // Don't care
+                        }
+                    }
+                }
+            });
+        };
+        GreaseMonkeyCacheDeprecated.ClearAll = function (regexes, condition) {
+            GM_listValues().forEach(function (key) {
+                if (regexes.filter(function (r) { return key.match(r); }).length > 0) {
+                    if (condition) {
+                        var val = GM_getValue(key, undefined);
+                        if (condition(val)) {
+                            GreaseMonkeyCacheDeprecated.Unset(key);
+                        }
+                    }
+                    else {
+                        GreaseMonkeyCacheDeprecated.Unset(key);
+                    }
+                }
+            });
+        };
+        GreaseMonkeyCacheDeprecated.GetFromCache = function (cacheKey) {
+            var jsonItem = GM_getValue(cacheKey, undefined);
+            if (!jsonItem) {
+                return undefined;
+            }
+            var dataItem = JSON.parse(jsonItem);
+            if ((dataItem.Expires && new Date(dataItem.Expires) < new Date())) {
+                return undefined;
+            }
+            return dataItem.Data;
+        };
+        GreaseMonkeyCacheDeprecated.StoreInCache = function (cacheKey, item, expiresAt) {
+            var jsonStr = JSON.stringify({ Expires: expiresAt, Data: item });
+            GM_setValue(cacheKey, jsonStr);
+        };
+        GreaseMonkeyCacheDeprecated.Unset = function (cacheKey) {
+            GM_deleteValue(cacheKey);
+        };
+        return GreaseMonkeyCacheDeprecated;
+    }());
+    exports.GreaseMonkeyCacheDeprecated = GreaseMonkeyCacheDeprecated;
+}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(9), __webpack_require__(5), __webpack_require__(17), __webpack_require__(4), __webpack_require__(45)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, ReplaySubject_1, Subject_1, ChatApi_1, GreaseMonkeyCache_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var copyPastorServer = 'http://copypastor.sobotics.org';
@@ -4860,23 +4899,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
 
 /***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(1);
-var map_1 = __webpack_require__(45);
-Observable_1.Observable.prototype.map = map_1.map;
-//# sourceMappingURL=map.js.map
-
-/***/ }),
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var Observable_1 = __webpack_require__(1);
 var map_1 = __webpack_require__(46);
+Observable_1.Observable.prototype.map = map_1.map;
+//# sourceMappingURL=map.js.map
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var map_1 = __webpack_require__(47);
 /**
  * Applies a given `project` function to each value emitted by the source
  * Observable, and emits the resulting values as an Observable.
@@ -4917,7 +4956,7 @@ exports.map = map;
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 46 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5012,10 +5051,10 @@ var MapSubscriber = (function (_super) {
 //# sourceMappingURL=map.js.map
 
 /***/ }),
-/* 47 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(5), __webpack_require__(48)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, Subject_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(5), __webpack_require__(49)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, Subject_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function WatchFlags() {
@@ -5053,23 +5092,23 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
 
 
 /***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var Observable_1 = __webpack_require__(1);
-var filter_1 = __webpack_require__(49);
-Observable_1.Observable.prototype.filter = filter_1.filter;
-//# sourceMappingURL=filter.js.map
-
-/***/ }),
 /* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var Observable_1 = __webpack_require__(1);
 var filter_1 = __webpack_require__(50);
+Observable_1.Observable.prototype.filter = filter_1.filter;
+//# sourceMappingURL=filter.js.map
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var filter_1 = __webpack_require__(51);
 /* tslint:enable:max-line-length */
 /**
  * Filter items emitted by the source Observable by only emitting those that
@@ -5117,7 +5156,7 @@ exports.filter = filter;
 //# sourceMappingURL=filter.js.map
 
 /***/ }),
-/* 50 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5217,10 +5256,10 @@ var FilterSubscriber = (function (_super) {
 //# sourceMappingURL=filter.js.map
 
 /***/ }),
-/* 51 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(10), __webpack_require__(19), __webpack_require__(11), __webpack_require__(3)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, AdvancedFlagging_1, MetaSmokeAPI_1, FlagTypes_1, GreaseMonkeyCache_1) {
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__, exports, __webpack_require__(0), __webpack_require__(10), __webpack_require__(19), __webpack_require__(11), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = (function (require, exports, tslib_1, AdvancedFlagging_1, MetaSmokeAPI_1, FlagTypes_1, GreaseMonkeyCache_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     function SetupConfiguration() {
@@ -5434,9 +5473,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
             return tslib_1.__generator(this, function (_a) {
                 return [2 /*return*/, [
                         {
-                            element: $('<a />').text('Clear expired items from cache')
+                            element: $('<a />').text('Clear all grease monkey keys')
                                 .click(function () {
-                                GreaseMonkeyCache_1.GreaseMonkeyCache.ClearExpiredKeys();
+                                GM_listValues().forEach(function (key) {
+                                    GreaseMonkeyCache_1.GreaseMonkeyCache.Unset(key);
+                                });
                             }),
                             requiresReload: true
                         },
