@@ -1793,7 +1793,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_
                 linkStyle = { 'display': 'inline-block', 'margin-top': '5px', 'width': 'auto' };
                 dropDown = $('<dl />').css({
                     'margin': '0',
-                    'z-index': '1',
+                    'z-index': '3',
                     'position': 'absolute',
                     'white-space': 'nowrap',
                     'background': '#FFF',
